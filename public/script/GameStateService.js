@@ -1,11 +1,11 @@
-app.service('GameStateService', function($rootScope){
+app.service('GameStateService', function($rootScope, $timeout){
 	var _currentState = 1;
 	var _comparedCardValue = "";
 	var _comparedCardIndex = "";
 	var _matchedPairCount = 8;
 	var _clickEventLocked = false;
 	var _endGame = false;
-
+	var _cardFlipDelay;
 	var setState = function(newState){
 		_currentState = newState;
 	}
@@ -46,7 +46,7 @@ app.service('GameStateService', function($rootScope){
 			   		//Not matching, reset everything flipped both cards back and back to state 1.
 			   		//Delay: to make sure the card is flipped up for 1.5s
 			   		_clickEventLocked = true;
-			   		setTimeout(function(){
+			   		_cardFlipDelay = $timeout(function(){
 				   		comparedCard.removeClass('flipped');
 				   		currentCard.removeClass('flipped');
 				   		_comparedCardValue = "";
@@ -77,6 +77,7 @@ app.service('GameStateService', function($rootScope){
 		_clickEventLocked = false;
 		_matchedPairCount = 8;
 		_endGame = false;
+		$timeout.cancel(_cardFlipDelay);
 	};
 
 

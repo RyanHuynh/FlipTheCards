@@ -86,6 +86,7 @@ app.directive('card', function(GameStateService){
         link : function(scope, element, attrs){
             element.bind('click', function(){
                 if(!GameStateService.isClickEventLocked()){
+                    console.log("Inside lock");
                     element.addClass('flipped');
                     GameStateService.updateState(attrs.index, scope.data.value);
                 }

@@ -32,19 +32,19 @@ app.service('GameControlService', function($http, $timeout, GameStateService){
     var timerActivated = false;
    
     var _display = this.display = function(textType){
-		var displayBox = angular.element(document.querySelector("div[id='displayBox']"));
+		var displayBox = angular.element(document.querySelectorAll("div[class='displayBox']"));
 		displayBox.empty();
 		if(textType == "endGame"){
-			displayBox.append("<h1>Excellent !! </h1>");
+			displayBox.append("<h3>Excellent</h3>");
 		}
 		else if(textType == "Identical_mode")	{
-			displayBox.append("<h1>Mirror Images</h1>");
+			displayBox.append("<h1><b>Mirror Images: </b><br > Find image pair that are identical to the each other. <br ><br ><b>Difficulty: </b>Easy</h1>");
 		}
 		else if(textType == "Name_mode")	{
-			displayBox.append("<h1>Name that image mode:</h1>");
+			displayBox.append("<h1><b>Name that Image: </b><br > Find the text that match with image.<br ><br ><b>Difficulty: </b>Medium</h1></h1>");
 		}
 		else if(textType == "Shape_mode")	{
-			displayBox.append("<h1>Shape to shape mode:</h1>");
+			displayBox.append("<h1><b>Shape to Shape: </b><br >Find pair of shapes that can match with each other.<br ><br ><b>Difficulty: </b>Extremely hard !!!</h1></h1>");
 		}
 
 	}
@@ -65,7 +65,7 @@ app.service('GameControlService', function($http, $timeout, GameStateService){
 		GameStateService.lockClickEvent(true);
 		var _duration = duration;
 		// alert(_duration);
-		var displayBox = angular.element(document.querySelector("div[id='displayBox']"));
+		var displayBox = angular.element(document.querySelectorAll("div[class='displayBox']"));
 		var countDown = function(){
 			displayBox.empty();
 			displayBox.append("<h2>"  + _duration + "</h2>");
