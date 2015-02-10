@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.9/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.9/angular-animate.js" ></script>
+		<link rel="stylesheet" type="text/css" href="style/style.css" >
+		<link rel="stylesheet" type="text/css" href="style/animate.css" >
+		<script src="script/main.js"></script>
+		<script src="script/GameControlService.js"></script>
+		<script src="script/GameStateService.js"></script>
+		
+	</head>
+	<body ng-app="myApp" ng-controller='mainCtrl'>
+		<header></header>
+		<div class='mainWrapper'>
+			<div id="gameBox" class='squareBox'></div>
+			<div id="gameController" class="parentHeight desktop-only">
+				<div id="displayBox" ><h1>Mirror Images</h1></div>
+				<div id="gameMode">
+					<h3>Game Mode :</h3>
+					<div id="gameModeContainer">
+						<mode value='Identical' class='squareBox modeClicked'>A</mode>
+						<mode value='Name' class='squareBox'>B</mode>
+						<mode value='Shape' class='squareBox'>C</mode>
+					</div>
+					<input id="newGameBtn" type='button' ng-click="newGame()"/>
+				</div>
+			</div>
+		</div>
+			
+		<footer><small>Designed and created by Ryan Huynh. Copyright &copy 2015.</small></footer>
+	</body>
+	// <script>
+//   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+//   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+//   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+//   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+//   ga('create', 'UA-59476581-1', 'auto');
+//   ga('send', 'pageview');
+
+// </script>
+</html>

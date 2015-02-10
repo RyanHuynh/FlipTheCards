@@ -1,0 +1,4 @@
+bkg : 1d1819
+gameBox: 3c3c3c
+border : 4fe0e6
+controler : 0f0d0d
