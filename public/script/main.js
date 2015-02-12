@@ -1,15 +1,11 @@
-
-
 var app = angular.module('myApp' , ['ngAnimate']);
-
-app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, GameStateService){
+app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, GameStateService, StatService){
 
     $scope.service = GameStateService;
-    //Default gane setting
-    var timerDuration = 1000;
+    //Default game setting
     var hasTimer = "false";
-    var previousThemeIndex = 1;
     var cardChildScope;
+    $scope.chartShow = false;
     
     var _constructNewDeck = function(){
         var gameModeUsed = GameControlService.getGameMode();
@@ -18,7 +14,6 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
             .success(function(data){
                 $scope.currentDeck = [];
                 var selectedDeck = data.theme;
-                previousThemeIndex = data.themeIndex;
                 var arraySize = selectedDeck.length;
                 for(i = 0; i < 16; i++){
                     var cardCreated = false;
@@ -32,14 +27,13 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
                         }
                     }
                 }
+                //Set previous theme index to avoid loading same themes in a row.
+                GameControlService.setPreviousThemeIndex(data.themeIndex);
 
                 //Attach new game to game box.
                 var gameBox = angular.element(document.querySelector("div[id='gameBox']"));
                 var newDeck = angular.element("<card ng-repeat='card in currentDeck' class='squareBox' data='card' index='{{ $index }}' />");
 
-                //Flipped all card if Game mode is "Shape"
-                if(gameModeUsed == "Shape")
-                    newDeck.addClass('flipped');
                 cardChildScope = $scope.$new();
                 gameBox.append($compile(newDeck)(cardChildScope)); 
                 
@@ -47,21 +41,33 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
     }
 
     $scope.newGame = function(){
-        //Reset game state.
-        GameStateService.reset();
+        if(!GameControlService.isGameLocked()){
+            //Lock game after create new game to prevent overloaded databse request.
+            GameControlService.lockGame(true);
+            
+            //Reset game state.
+            GameStateService.reset();
 
-        //Clean up old game.
-        var gameBox = angular.element(document.querySelector("div[id='gameBox']"));
-        if(cardChildScope)
-            cardChildScope.$destroy();
-        gameBox.empty();
+            //Kill old timer if existed.
+            GameControlService.killTimer();
 
-        //Construct new deck.
-        $scope.currentDeck = [];
-       _constructNewDeck(); 
+            //Clean up old game.
+            var gameBox = angular.element(document.querySelector("div[id='gameBox']"));
+            if(cardChildScope)
+                cardChildScope.$destroy();
+            gameBox.empty();
 
-       GameControlService.gameStart();
-       
+            //Construct new deck.
+            $scope.currentDeck = [];
+           _constructNewDeck(); 
+            
+            GameControlService.display("loading");
+
+            setTimeout(function(){
+                GameControlService.gameStart();
+                GameControlService.lockGame(false);
+            }, 1500);
+        } 
     };
     $scope.newGame();
 
@@ -71,11 +77,26 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
         }
     });
 
-
+    $scope.showStat = function(){
+        if(StatService.isValid()){
+            var statBtn = angular.element(document.querySelector("input[id='statSwitch']"));
+            statBtn.toggleClass('statBtnOn');
+            if($scope.chartShow){
+                $scope.chartShow = false;
+                StatService.hideStat();
+            }
+            else{
+                $scope.chartShow = true;
+               setTimeout(StatService.displayStat,1);
+            }
+        }else{
+            GameControlService.display("statNotValid");
+        }
+    }
 
 });
 
-app.directive('card', function(GameStateService){
+app.directive('card', function(GameStateService, GameControlService, StatService){
     return {
         scope: {
             data : '=', 
@@ -85,10 +106,11 @@ app.directive('card', function(GameStateService){
                     "<back></back>",
         link : function(scope, element, attrs){
             element.bind('click', function(){
-                if(!GameStateService.isClickEventLocked()){
-                    console.log("Inside lock");
+                if(!GameStateService.isClickEventLocked() && !GameControlService.isGameLocked()){
+                    //console.log("Inside lock");
                     element.addClass('flipped');
                     GameStateService.updateState(attrs.index, scope.data.value);
+                
                 }
             }); 
         }
@@ -101,10 +123,12 @@ app.directive('mode', function(GameControlService){
     return{
         link: function(scope, element,attrs){
             element.bind('click', function(){
-                GameControlService.setGameMode(attrs.value);
-                element.parent().children().removeClass('modeClicked');
-                element.toggleClass('modeClicked');
-                scope.newGame();
+                if(!GameControlService.isGameLocked()){
+                    GameControlService.setGameMode(attrs.value);
+                    element.parent().children().removeClass('modeClicked');
+                    element.toggleClass('modeClicked');
+                    scope.newGame();
+                }
             });
         }
     }

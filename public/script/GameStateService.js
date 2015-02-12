@@ -1,4 +1,4 @@
-app.service('GameStateService', function($rootScope, $timeout){
+app.service('GameStateService', function($rootScope, $timeout, StatService){
 	var _currentState = 1;
 	var _comparedCardValue = "";
 	var _comparedCardIndex = "";
@@ -14,6 +14,7 @@ app.service('GameStateService', function($rootScope, $timeout){
 		if(_currentState == 1){
             _setComparedCard(cardIndex, cardValue);
             setState(2);
+            StatService.update();
         }
         else if(_currentState == 2){
         	//If not the same card clicked previously
@@ -33,6 +34,7 @@ app.service('GameStateService', function($rootScope, $timeout){
                     if(_matchedPairCount == 0){
                     	_endGame = true;
                     	$rootScope.$apply();
+                    	StatService.updateEndGameStat();
                     }
                     else{
                     	//Reset back to state 1
@@ -55,6 +57,7 @@ app.service('GameStateService', function($rootScope, $timeout){
 						_clickEventLocked = false;
 					}, 1500);
 			   }
+			   	StatService.update();
 			}
 		}
 	}
