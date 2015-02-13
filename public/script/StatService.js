@@ -1,6 +1,11 @@
 //
 
 app.service('StatService', function($timeout){
+
+	/********************************
+	 *			VARIABLES	    	*
+	 ********************************/
+	 
 	var _minClicked = 16;
 	var _totalClicked = 0;
 	var _currentGameClicked = 0;
@@ -15,10 +20,21 @@ app.service('StatService', function($timeout){
 	var _BgameClicked = 0;
 	var _CgameClicked = 0;
 
-	this.update = function(){
+	 /*******************************
+	 *		   MAIN FUNCTIONS	    *
+	 ********************************/
+
+	//Update No of click in current game.
+	this.updateClick = function(){
 		_currentGameClicked++;
 	};
 
+	//Reset No click when new game is created.
+	this.resetStat = function(){
+		_currentGameClicked = 0;
+	}
+
+	//Update stat at end game.
 	this.updateEndGameStat = function(){
 		if(_gameMode == "Identical")
 			_AgameClicked =_AgameClicked + _currentGameClicked;
@@ -30,9 +46,7 @@ app.service('StatService', function($timeout){
 		_updateGamePlayed();
 	}
 
-	this.resetStat = function(){
-		_currentGameClicked = 0;
-	}
+	//Update game played.
 	var _updateGamePlayed = function(){
 		if(_gameMode == "Identical")
 			_AgamePlayed++;
@@ -42,6 +56,8 @@ app.service('StatService', function($timeout){
 			_CgamePlayed++;
 		_gamePlayed++;
 	}
+
+	//Calculate Overall Accuracyy Stat and redendered to screen.
 	var _calculateOverallAcc = function(){
 		var overallAcc = Math.floor(_minClicked * _gamePlayed / _totalClicked * 100 );
 		var ctx = document.querySelector("canvas[id='overallChart']").getContext("2d");
@@ -77,6 +93,8 @@ app.service('StatService', function($timeout){
 					};
 		var myPieChart = new Chart(ctx).Pie(data, options);
 	}
+
+	//Calculate game played stat and rendered to screen.
 	var _calculateGamePlayed = function(){
 		var ctx = document.querySelector("canvas[id='gamePlayedChart']").getContext("2d");
 		var data = [
@@ -118,6 +136,8 @@ app.service('StatService', function($timeout){
 					};
 		var myPieChart = new Chart(ctx).Pie(data, options);
 	}
+
+	//Caculate Accuracy for each game mode and rendered to screen.
 	var _calculateModeAcc = function(){
 		var options = { animation : false, 
 						tooltipTemplate: "<%= value %>",
@@ -161,21 +181,28 @@ app.service('StatService', function($timeout){
 
 	}
 
+	//Execute stat caculation routine.
 	this.displayStat = function(){
 		_calculateOverallAcc();
 		_calculateGamePlayed();
 		_calculateModeAcc();
 		_showNextChart();
 	}
+
+	//Hide stat chart.
 	this.hideStat = function(){
 		$timeout.cancel(_showChartPromise);
 		var statChart = angular.element(document.querySelector("div[id='statChart']"));
 		statChart.children().removeClass('hide');
 		_currentChartDisplay = 0;
 	}
+
+	//Get the current game mode.
 	this.setGameMode = function(gameMode){
 		_gameMode = gameMode;
 	}
+
+	//Display the next game stat chart.
 	var _showNextChart = function(){
 		var statChart = angular.element(document.querySelector("div[id='statChart']"));
 		statChart.children().addClass('hide');
@@ -184,6 +211,8 @@ app.service('StatService', function($timeout){
 		nextChart.removeClass('hide');
 		_showChartPromise =  $timeout(_showNextChart, 5000);
 	}
+
+	//Check if displaying stat is allowed. (only valid is player played at least 1 game.)
 	this.isValid = function(){
 		return (_gamePlayed != 0) ? true : false;
 	}

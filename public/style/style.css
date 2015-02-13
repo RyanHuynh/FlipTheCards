@@ -120,9 +120,6 @@ small{
 b{
 	font-weight: bold;
 }
-.desktop-only{
-	display: none;
-}
 .mainWrapper{
 	margin: 15px;
 }
@@ -134,45 +131,48 @@ b{
 	box-shadow: inset 1px 2px 8px black;
 }
 .displayBox{
-	height: 150px;
+	height: 190px;
 	background: #5BE0F5;
 	box-shadow: inset 0 0 7px black;
 	border-radius: 4px;
 	color: #045D70;
+	margin-bottom: 30px;
+	position: relative;
 }
-.displayBox h2{
-	text-align: center;
-	font-size: 6em;
-	padding:5%;
-	font-family: digit;
-}
-.displayBox h3{
-	text-align: center;
-	font-size: 3.5em;
-	padding:10%;
-	font-family: digit;
-}
-.displayBox h1{
+#gameText h1{
 	font-size: 1em;
 	padding:5%;
 	font-weight: normal;
 }
-#gameMode{
+#gameText h2{
+	text-align: center;
+	font-size: 6em;
+	padding:15%;
+	font-family: digit;
+}
+#gameText h3{
+	text-align: center;
+	font-size: 3.5em;
+	padding-top:20%;
+	font-family: digit;
+}
+#gameText h4{
+	padding:5%;
+}
+#gameMode, #statBtn{
 	color:white;
-	margin:30px auto;
+	margin:15px auto;
 }
 .glowText{
 	font-size: 1.2em;
 	display: inline-block;
 	width: 25%;
 	vertical-align: top;
-	text-align: center;
 	color:#48CED4;
 }	
 #gameModeContainer{
 	display: inline-flex;
 	display: -webkit-inline-flex;
-	/*margin:15px auto;*/
 	width: 70%;
 	vertical-align: top;
 }
@@ -187,6 +187,7 @@ b{
 	display: inline-block;
 	cursor: pointer;
 	width: 100%;
+
 }
 #gameModeContainer mode.smallBtn{
 	height: 30px;
@@ -201,6 +202,83 @@ b{
 	background:#47CCBF;
 		color:white;
 }
+
+#statBtn h3{
+	width: 30%;
+	vertical-align: middle;
+}
+#statSwitch{
+	background: url('../img/Page/StatOff.png');
+	background-size: 100% 100%;
+	width: 100px;
+	height: 52px;
+	border:none;
+	vertical-align: middle;
+	margin-left: 20px;
+	cursor: pointer;
+}
+#statSwitch.statBtnOn{
+	background: url('../img/Page/StatOn.png');
+	background-size: 100% 100%;
+}
+#statChart{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+#statChart li{
+	padding-top:5%;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+#statChart li h4{
+	text-align: center;
+	margin-bottom:5%;
+}
+
+canvas {
+	display: inline-block;
+	width: 62%;
+	height: 65%;
+	vertical-align: middle;
+}
+.legend{
+	display: inline-block;
+	width: 35%;
+	vertical-align: middle;
+}
+.legendBox {
+	width: 25px;
+	height: 13px;
+}
+.modeAccuracyChart{
+	display: flex;
+	display: -webkit-flex;
+	margin-top:8%;
+}
+.modeAccuracyChart canvas{
+	width: 33%;
+	height: 60px;
+}
+.modeAccuracyLegend {
+	display: flex;
+	display: -webkit-flex;
+	margin-top:10px;
+}
+div.modeLegend{
+	display: inline-block;
+	width: 33%;
+	text-align: center;
+}
+#gamePlayedLegend div{
+	display: inline-block;
+}
+	
+
+.hide{
+	display: none;
+}
 #newGameBtn{
 	background: url('../img/Page/startBtnInactive.png');
 	border:none;
@@ -208,11 +286,14 @@ b{
 	background-size: 100% 100%;
 	height:48px;
 	margin:20px auto;
-	display: block;
 	cursor: pointer;
 	transition:0.5s;
 }
-#newGameBtn:hover {
+#newGameBtn.mobile-only{
+	margin:6% 6% 0 6%;
+}
+
+#newGameBtn.mobile-only.hover{
 	background: url('../img/Page/startBtn.png');
 	background-size: 100% 100%;
 }
@@ -268,24 +349,26 @@ clock h1{
 	-webkit-animation-iteration-count: 10; /* Chrome, Safari, Opera */
     animation-iteration-count: 10;
 }
-
+.desktop-only{
+	display: none;
+}
 /******************************************
  *              Media Query               *
  ******************************************/
 @media only screen and (min-width: 768px){
 	.mobile-only{
-		display: none !important;
+		display: none;
+	}
+	.desktop-only{
+		display: inherit;
 	}
 	header{
 		background-size: auto 100%;
-		height: 100px;
-	}
-	.desktop-only{
-		display: initial;
+		height: 20vh;
 	}
 	.mainWrapper{
 		width: 70%;
-		margin: 2% auto 0;
+		margin: 0 auto;
 	}
 	#gameBox, #gameController.desktop-only{
 		display: inline-block;
@@ -299,7 +382,7 @@ clock h1{
 	}
 	#gameController {
 		width: 24%;
-		padding: 0 25px 0 25px;
+		padding: 25px;
 		position:relative;
 		border-radius: 30px;
 		border:4px solid #4fe0e6;
@@ -321,27 +404,35 @@ clock h1{
 	}
 	.displayBox{
 		height: 150px;
-		margin-top:25px;
 		position: relative;
 	}
-	.displayBox h2{
+
+
+	#statBtn h3{
+		width: 40%;
+	}
+
+	
+	
+	
+
+
+	#gameText h1{
+		font-size: 1em;
+		padding:5%;
+	}
+	#gameText h2{
 		text-align: center;
 		font-size: 5em;
 		padding-top:15%;
 		font-family: digit;
 	}
-	.displayBox h3{
+	#gameText h3{
 		font-size: 3em;
 		padding-top: 20%;
 		font-family: digit;
 	}
-	.displayBox h1{
-		font-size: 1em;
-		padding:5%;
-	}
-	#gameText h4{
-		padding:5%;
-	}
+	
 	#gameMode h3{
 		display: initial;
 	}
@@ -369,76 +460,3 @@ clock h1{
 	}
 }
 	
-	#statChart{
-		width: 100%;
-		height: 100%;
-	}
-	#statChart li{
-		padding-top:5%;
-		height: 100%;
-		width: 100%;
-		position: absolute;
-
-	}
-	#statChart li h4{
-		text-align: center;
-		margin-bottom:5%;
-	}
-	canvas {
-		display: inline-block;
-		width: 62%;
-		height: 65%;
-		vertical-align: middle;
-	}
-	.legend{
-		display: inline-block;
-		width: 35%;
-		vertical-align: middle;
-	}
-	.legendBox {
-		width: 25px;
-		height: 13px;
-	}
-	.hide{
-		display: none;
-	}
-	.modeAccuracyChart{
-		display: flex;
-		display: -webkit-flex;
-		margin-top:8%;
-	}
-	.modeAccuracyChart canvas{
-		width: 33%;
-		height: 60px;
-	}
-	.modeAccuracyLegend {
-		display: flex;
-		display: -webkit-flex;
-		margin-top:10px;
-	}
-	div.modeLegend{
-		display: inline-block;
-		width: 33%;
-		text-align: center;
-	}
-	#gamePlayedLegend div{
-		display: inline-block;
-	}
-	#statSwitch{
-		background: url('../img/Page/StatOff.png');
-		background-size: 100% 100%;
-		width: 100px;
-		height: 52px;
-		border:none;
-		vertical-align: middle;
-		margin-left: 20px;
-		cursor: pointer;
-	}
-	#statSwitch.statBtnOn{
-		background: url('../img/Page/StatOn.png');
-		background-size: 100% 100%;
-	}
-	#statBtn h3{
-		width: 40%;
-		vertical-align: middle;
-	}

@@ -20,7 +20,7 @@
 		<div class='mainWrapper'>
 
 			<!-- Game control box for mobile version-->
-			<div id="gameController" class="mobile-only">
+			<!-- <div id="gameController" class="mobile-only">
 				<div class="displayBox" >
 					<div id="gameText"></div>
 				</div>
@@ -32,14 +32,10 @@
 						<mode value='Shape' class='smallBtn'>C</mode>
 					</div>
 				</div>
-			</div>
-
-			<!-- Game box where the cards will be rendered. -->
-			<div id="gameBox" class='squareBox'></div>
-			<input id="newGameBtn" type='button' ng-click="newGame()" class="mobile-only"/>
+			</div> -->
 
 			<!-- Game control box for desktop version. -->
-			<div id="gameController" class="parentHeight desktop-only">
+			<div id="gameController" class="controllerBoxHeight">
 				<div class="displayBox">
 					<div id='statChart' ng-show='chartShow'>
 						<li position=1>
@@ -84,19 +80,34 @@
 					</div>
 					<div id="gameText" ng-hide='chartShow'></div>
 				</div>
-				<div id="gameMode">
+				<div id="gameMode" class="desktop-only">
 					<h3 class='glowText'>Game Mode :</h3>
-					<div id="gameModeContainer">
+					<div id="gameModeContainer" >
 						<mode value='Identical' class='squareBox modeClicked'>A</mode>
 						<mode value='Name' class='squareBox'>B</mode>
 						<mode value='Shape' class='squareBox'>C</mode>
 					</div>
 				</div>
+				<div id="gameMode" class="mobile-only">
+					<h3 class='glowText'>Game Mode :</h3>
+					<div id="gameModeContainer" >
+						<mode value='Identical' class='smallBtn modeClicked'>A</mode>
+						<mode value='Name' class='smallBtn'>B</mode>
+						<mode value='Shape' class='smallBtn'>C</mode>
+					</div>
+				</div>
 				<div id="statBtn" ><h3 class='glowText'>View Stat :</h3><input type='button' id='statSwitch' ng-click="showStat()"></div>
-				<input id="newGameBtn" type='button' ng-click="newGame()"/>
+				<input id="newGameBtn" class="desktop-only" type='button' ng-click="newGame()"/>
 			</div>
+
+			<!-- Game box where the cards will be rendered. -->
+			<div id="gameBox" class='squareBox'></div>
+			<input id="newGameBtn" type='button' ng-click="newGame()" class="mobile-only btnHover"/>
 		</div>
+
 		
+
+
 		<footer><small>Designed and developed by Ryan Huynh. Copyright &copy 2015.</small></footer>
 	</body>
 	<script>

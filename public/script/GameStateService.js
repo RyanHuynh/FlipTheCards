@@ -1,4 +1,9 @@
 app.service('GameStateService', function($rootScope, $timeout, StatService){
+
+	/********************************
+	 *			VARIABLES	    	*
+	 ********************************/
+
 	var _currentState = 1;
 	var _comparedCardValue = "";
 	var _comparedCardIndex = "";
@@ -10,11 +15,16 @@ app.service('GameStateService', function($rootScope, $timeout, StatService){
 		_currentState = newState;
 	}
 
+	 /*******************************
+	 *		   MAIN FUNCTIONS	    *
+	 ********************************/
+
+	//Update and handle logic when card is flipped.
 	this.updateState = function(cardIndex, cardValue){
 		if(_currentState == 1){
             _setComparedCard(cardIndex, cardValue);
             setState(2);
-            StatService.update();
+            StatService.updateClick();
         }
         else if(_currentState == 2){
         	//If not the same card clicked previously
@@ -56,23 +66,29 @@ app.service('GameStateService', function($rootScope, $timeout, StatService){
 						setState(1);
 						_clickEventLocked = false;
 					}, 1500);
-			   }
-			   	StatService.update();
+			    }
+			   	StatService.updateClick();
 			}
 		}
 	}
 
+	//Save the current compared card.
 	var _setComparedCard = function(index, value){
 		_comparedCardValue = value;
 		_comparedCardIndex = index;
 	}
 
+	//Check to see if click event is locked.
 	this.isClickEventLocked = function(){
 		return _clickEventLocked;
 	}
+
+	//Lock click event.
 	this.lockClickEvent = function(flag){
 		_clickEventLocked = flag;
 	};
+
+	//Reset game state when new game is created
 	this.reset = function(){
 		_comparedCardValue = "";
 		_comparedCardIndex = "";
@@ -83,7 +99,7 @@ app.service('GameStateService', function($rootScope, $timeout, StatService){
 		$timeout.cancel(_cardFlipDelay);
 	};
 
-
+	//Signal Controller that the game is ended (ia $watch)
 	this.isGameEnd = function(){
 		return _endGame;
 	}
