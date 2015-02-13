@@ -54,10 +54,10 @@ app.service('GameControlService', function($http, $timeout, GameStateService, St
 			displayTextBox.append("<h3>Excellent</h3>");
 		}
 		else if(textType == "Identical_mode")	{
-			displayTextBox.append("<h1><b>Mirror Images: </b><br > Find image pair that are identical to the each other. <br ><br ><b>Difficulty: </b>Easy</h1>");
+			displayTextBox.append("<h1><b>Mirror Images: </b><br > Find image pair that are identical to each other. <br ><br ><b>Difficulty: </b>Easy</h1>");
 		}
 		else if(textType == "Name_mode")	{
-			displayTextBox.append("<h1><b>Name that Image: </b><br > Find the text that match with image.<br ><br ><b>Difficulty: </b>Medium</h1></h1>");
+			displayTextBox.append("<h1><b>Name that Image: </b><br > Find the text that matches with the image.<br ><br ><b>Difficulty: </b>Medium</h1></h1>");
 		}
 		else if(textType == "Shape_mode")	{
 			displayTextBox.append("<h1><b>Shape to Shape: </b><br >Find pair of shapes that can match with each other.<br ><br ><b>Difficulty: </b>Extremely hard !!!</h1></h1>");
