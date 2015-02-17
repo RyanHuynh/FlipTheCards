@@ -18,10 +18,6 @@ var Schema = mongoose.Schema;
 var ThemeSchema = new Schema({
 	data : [{id: Number,  value : String , background : String, count: Number }]
 });
-
-//Register schema to models ( each models with be different types of theme)
-var Identical = mongoose.model('Identical', ThemeSchema);
-var Name = mongoose.model('Name', ThemeSchema);
 				
 //Define our API
 app.use('/api', router);
@@ -35,17 +31,18 @@ router.route('/themes/:theme_type/:theme_index')
 			if(err)
 				res.send(err);
 			totalEntries = count;
-			//console.log(totalEntries);
-		});
-		Theme.find(function(err, themes){
-			if(err)
+
+			Theme.find(function(err, themes){
+			if(err){
 				res.send(err);
+			}
 			var randomIndex = 1;
 			do {
 				randomIndex = Math.floor(Math.random() * totalEntries);
 			} while ( randomIndex == req.params.theme_index);
 			var result = { theme : themes[randomIndex].data, themeIndex : randomIndex};
 			res.json(result); 
+			});
 		});
 	});
 

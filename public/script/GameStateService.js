@@ -32,7 +32,7 @@ app.service('GameStateService', function($rootScope, $timeout, StatService){
 			{
 				var comparedCard = angular.element(document.querySelector("card[index='" + _comparedCardIndex + "']"));
                 var currentCard = angular.element(document.querySelector("card[index='" + cardIndex + "']"));
-			    
+			    StatService.updateClick();
 			    if(_comparedCardValue == cardValue){
 			        _matchedPairCount--;
 
@@ -67,7 +67,6 @@ app.service('GameStateService', function($rootScope, $timeout, StatService){
 						_clickEventLocked = false;
 					}, 1500);
 			    }
-			   	StatService.updateClick();
 			}
 		}
 	}

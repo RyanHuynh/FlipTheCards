@@ -2,7 +2,7 @@ var app = angular.module('myApp' , ['ngAnimate']);
 app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, GameStateService, StatService){
 
     $scope.service = GameStateService;
-    
+    var count = 0;
     //Default game setting
     var _cardChildScope;
     $scope.chartShow = false;
@@ -38,7 +38,11 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
                 _cardChildScope = $scope.$new();
                 gameBox.append($compile(newDeck)(_cardChildScope)); 
                 
-            });
+
+            })
+            .error(function(data, status, headers, config){
+                console.log("IM CRASHED");
+            } );
     }
 
     //Generate new game.
@@ -46,7 +50,7 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
         if(!GameControlService.isGameLocked()){
             //Lock game after create new game to prevent overloaded database request.
             GameControlService.lockGame(true);
-            
+            count++;
             //Turn off stat button.
             if($scope.chartShow){
                 $scope.showStat();
@@ -60,8 +64,9 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
 
             //Clean up old game.
             var gameBox = angular.element(document.querySelector("div[id='gameBox']"));
-            if(_cardChildScope)
+            if(_cardChildScope){
                 _cardChildScope.$destroy();
+            }
             gameBox.empty();
 
             //Construct new deck.
@@ -117,7 +122,7 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
 app.directive('mode', function(GameControlService){
     return{
         link: function(scope, element,attrs){
-            element.bind('click', function(){
+            element.bind('click touchstart', function(){
                 if(!GameControlService.isGameLocked()){
                     GameControlService.setGameMode(attrs.value);
                     element.parent().children().removeClass('modeClicked');
@@ -165,15 +170,15 @@ app.directive('squareBox', function($window){
 });
 
 //Compute the height of controler box base on game box height ( to make them have sae height).
-app.directive('controllerBoxHeight', function(GameControlService){
+app.directive('controllerBoxHeight', function($window, GameControlService){
     return{
         restrict: 'C',
         link: function(scope, element){
             //Only need on desktop
-            if(!GameControlService.isMobile()){
+            if(!GameControlService.isMobile() && ($window.innerHeight < $window.innerWidth)){
                 var gameBox = angular.element(document.querySelector("div[id='gameBox']"));
                 var width = gameBox[0].offsetWidth;
-                var height = width - 60;
+                var height = width - 0.13 * width;
                 element.css('height', height + "px");
             }
         }
@@ -185,7 +190,6 @@ app.directive('btnHover', function(){
         restrict: 'C',
         link: function(scope, element){
             element.on('touchstart touchend', function(){
-                console.log(1);
                 element.toggleClass('hover');
             });
         }

@@ -96,7 +96,7 @@ app.service('GameControlService', function($http, $timeout, GameStateService, St
 		else
 			_display(_gameModeUsed + '_mode');
 		StatService.resetStat();
-		StatService.setGameMode();
+		StatService.setGameMode(_gameModeUsed);
 	};
 
 	//Activate timer on Shape Mode.

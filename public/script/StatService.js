@@ -38,7 +38,7 @@ app.service('StatService', function($timeout){
 	this.updateEndGameStat = function(){
 		if(_gameMode == "Identical")
 			_AgameClicked =_AgameClicked + _currentGameClicked;
-		else if (gameMode == "Name")
+		else if (_gameMode == "Name")
 			_BgameClicked = _BgameClicked + _currentGameClicked;
 		else
 			_CgameClicked = _CgameClicked + _currentGameClicked;
@@ -50,7 +50,7 @@ app.service('StatService', function($timeout){
 	var _updateGamePlayed = function(){
 		if(_gameMode == "Identical")
 			_AgamePlayed++;
-		else if (gameMode == "Name")
+		else if (_gameMode == "Name")
 			_BgamePlayed++;
 		else
 			_CgamePlayed++;
