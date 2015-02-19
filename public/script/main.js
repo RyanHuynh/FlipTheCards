@@ -2,7 +2,6 @@ var app = angular.module('myApp' , ['ngAnimate']);
 app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, GameStateService, StatService){
 
     $scope.service = GameStateService;
-    var count = 0;
     //Default game setting
     var _cardChildScope;
     $scope.chartShow = false;
@@ -11,7 +10,7 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
     var _constructNewDeck = function(){
         var gameModeUsed = GameControlService.getGameMode();
         var previousThemeIndex = GameControlService.getPreviousThemeIndex();
-        $http.get('api/themes/' + gameModeUsed + '/' + previousThemeIndex)
+        $http.get('/api/themes/' + gameModeUsed + '/' + previousThemeIndex)
             .success(function(data){
                 $scope.currentDeck = [];
                 var selectedDeck = data.theme;
@@ -33,16 +32,14 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
 
                 //Attach new game to game box.
                 var gameBox = angular.element(document.querySelector("div[id='gameBox']"));
-                var newDeck = angular.element("<card ng-repeat='card in currentDeck' class='squareBox' data='card' index='{{ $index }}' />");
+                var newDeck = angular.element("<card ng-repeat='card in currentDeck' class='squareBox fadeIn animated' data='card' index='{{ $index }}' />");
 
                 _cardChildScope = $scope.$new();
-                gameBox.append($compile(newDeck)(_cardChildScope)); 
-                
+                gameBox.append($compile(newDeck)(_cardChildScope));
 
-            })
-            .error(function(data, status, headers, config){
-                console.log("IM CRASHED");
-            } );
+                //Load game completed. Start new game. Note: delay here to make sure new deck is rendered before start the game.
+                setTimeout(GameControlService.gameStart, 1000);
+            });
     }
 
     //Generate new game.
@@ -50,7 +47,10 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
         if(!GameControlService.isGameLocked()){
             //Lock game after create new game to prevent overloaded database request.
             GameControlService.lockGame(true);
-            count++;
+
+            //Go into loading mode.
+            GameControlService.loadGame();
+
             //Turn off stat button.
             if($scope.chartShow){
                 $scope.showStat();
@@ -69,13 +69,9 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
             }
             gameBox.empty();
 
-            //Construct new deck.
+            //Construct new deck and start game when construct completed.
             $scope.currentDeck = [];
             _constructNewDeck(); 
-            
-            //Start loading game
-            GameControlService.loadGame();
-
         } 
     };
 
@@ -145,7 +141,6 @@ app.directive('card', function(GameStateService, GameControlService, StatService
         link : function(scope, element, attrs){
             element.bind('click', function(){
                 if(!GameStateService.isClickEventLocked() && !GameControlService.isGameLocked()){
-                    //console.log("Inside lock");
                     element.addClass('flipped');
                     GameStateService.updateState(attrs.index, scope.data.value);
                 }

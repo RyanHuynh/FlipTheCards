@@ -78,15 +78,14 @@ app.service('GameControlService', function($http, $timeout, GameStateService, St
 		_gameLocked = true;
 		GameStateService.lockClickEvent(true);
 		_display('loading');
-		setTimeout(function(){
-			_disableStatBtn(false);
-			_gameLocked = false;
-			GameStateService.lockClickEvent(false);
-			_gameStart();
-		},1500);
 	}
 	//Run start game routine such as activate timer on Shape mode.
-	var _gameStart = this.gameStart = function(){
+	this.gameStart = function(){
+		//Button click is available.
+		_disableStatBtn(false);
+		_gameLocked = false;
+		GameStateService.lockClickEvent(false);
+
 		if(_gameModeUsed == "Shape"){
 			_activateTimer(_timerDuration);
 			//Flipped all card.
