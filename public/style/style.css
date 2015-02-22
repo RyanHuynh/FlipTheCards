@@ -301,6 +301,7 @@ div.modeLegend{
 }
 card {
 	perspective: 1000px;
+	-webkit-perspective:1000px;
 	display: inline-block;
 	position: relative;
 	cursor: pointer;
@@ -465,21 +466,26 @@ back{
 }
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px)  and (orientation: landscape){
 	header{
-		height: 15vh;
+		height: 20vh;
 	}
 	.mainWrapper{
 		width: 85%;
 	}
 	#gameBox{
 		padding: 10px;
-		border-radius: 20px;
+		border-radius: 15px;
+		border:3px solid #4fe0e6;
+	}
+	card *{
+		border-radius: 10px;
 	}
 	.glowText{
 		font-size: 0.8em;
 	}
 	#gameController {
-		border-radius: 20px;
+		border-radius: 15px;
 		width: 26%;
+		border:3px solid #4fe0e6;
 	}
 	.displayBox{
 		height: 37%;
@@ -506,8 +512,19 @@ back{
 	}
 	#statSwitch{
 		margin-left: 0;
-		width: 80px;
-		height: 40px;
+		width: 60px;
+		height: 30px;
+	}
+	#gameModeContainer mode{
+		border-radius: 7px;
+	}
+	#newGameBtn{
+		bottom: 15px;
+		height: 11%;
+	}
+	#gameModeContainer mode{
+		-webkit-transition:none;
+		transition:none;
 	}
 }
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation: portrait) {
