@@ -47,6 +47,7 @@
 .feedback input[type='button']{
 	-webkit-appearance: none;
 	border:none;
+	border-radius: 0;
 	padding:8px;
 	background:  #27A3A8;
 	color: white;
@@ -65,9 +66,6 @@
 		width: 100px;
 		height: 40px;
 	}
-	.ngdialog.ngdialog-theme-default .ngdialog-content{
-		padding: 30px;
-	}
 	#feedbackTab h3{
 		font-size: 1.2em;
 	}
@@ -78,3 +76,38 @@
 		background: #38EEF5;
 	}
 }
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape){
+	#feedbackTab{
+		width: 70px;
+		left: -40px;
+	}
+	#feedbackTab h3{
+		font-size: 1em;
+	}
+	.ngdialog.ngdialog-theme-default.feedback {
+		padding: 20px 0;
+	}
+	.ngdialog.ngdialog-theme-default.feedback .ngdialog-content{
+		width: 300px;
+		padding:20px;
+		font-size: 0.8em;
+	}
+	.feedback input[type='button']{
+		background: #004CFC;
+	}
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait){
+	#feedbackTab{
+		top:40vh;
+	}
+	.ngdialog.ngdialog-theme-default.feedback {
+		padding: 160px 0;
+	}
+	.feedback input[type='button']{
+		background: #004CFC;
+	}
+}
+
+
+
+

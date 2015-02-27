@@ -107,7 +107,7 @@ app.controller('mainCtrl', function($scope,$compile,$http,ngDialog, GameControlS
 
     $scope.openFeedback = function(){
         ngDialog.open({
-            template: 'feedback.html',
+            template: 'Views/feedback.html',
             className: 'ngdialog-theme-default feedback',
             controller: 'feedbackCtrl'
         })
