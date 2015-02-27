@@ -1,0 +1,80 @@
+.ngdialog.ngdialog-theme-default{
+	padding: 30px 0;
+}
+#feedbackTab{
+	color:white;
+	background: #FF8000;
+	width: 85px;
+	height: 40px;
+	transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 2px -2px 7px black;
+	text-align: center;
+	position: fixed;
+	top:55vh;
+	left:-50px;
+	cursor: pointer;
+}
+#feedbackTab h3{
+	font-size: 1em;
+	font-family: 'Oswald', sans-serif;
+}
+.ngdialog.ngdialog-theme-default .ngdialog-content{
+	padding: 20px;
+}
+.feedback h1{
+	text-align: center;
+	margin-bottom: 20px;
+	font-size: 1.5em;
+}
+.feedback p, .feedback label {
+	font-size: 0.9em;
+}
+.feedback form{
+	margin-top: 10px;
+}
+.feedback input , .feedback textarea{
+	padding:5px 10px;
+	width: 100%;
+	margin-bottom: 5px;
+	font-size: 0.85em;
+}
+.feedback textarea{
+	height: 13em;
+}
+.feedback input[type='button']{
+	-webkit-appearance: none;
+	border:none;
+	padding:8px;
+	background:  #27A3A8;
+	color: white;
+	width: 150px;
+	font-size: 1em;
+	line-height: 1em;
+	height: auto;
+	cursor: pointer;
+	transition: 0.5s;
+	-webkit-transition: 0.5s;
+	outline: none;
+}
+@media only screen and (min-width: 768px) and (orientation: landscape){
+	#feedbackTab{
+		top:40vh;
+		width: 100px;
+		height: 40px;
+	}
+	.ngdialog.ngdialog-theme-default .ngdialog-content{
+		padding: 30px;
+	}
+	#feedbackTab h3{
+		font-size: 1.2em;
+	}
+	.ngdialog.ngdialog-theme-default{
+		padding: 100px 0;
+	}
+	.feedback input[type='button']:hover{
+		background: #38EEF5;
+	}
+}

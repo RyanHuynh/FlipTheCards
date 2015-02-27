@@ -209,8 +209,8 @@ b{
 #statSwitch{
 	background: url('../img/Page/statOff.png');
 	background-size: 100% 100%;
-	width: 100px;
-	height: 52px;
+	width: 85px;
+	height: 45px;
 	border:none;
 	vertical-align: middle;
 	margin-left: 20px;
@@ -409,7 +409,10 @@ back{
 	#statBtn h3{
 		width: 40%;
 	}
-
+	#statSwitch{
+		width: 100px;
+		height: 52px;
+	}
 	#newGameBtn:hover{
 		background: url('../img/Page/startBtn.png');
 		background-size: 100% 100%;

@@ -1,5 +1,5 @@
-var app = angular.module('myApp' , ['ngAnimate']);
-app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, GameStateService, StatService){
+var app = angular.module('myApp' , ['ngAnimate', 'ngDialog']);
+app.controller('mainCtrl', function($scope,$compile,$http,ngDialog, GameControlService, GameStateService, StatService){
 
     $scope.service = GameStateService;
     //Default game setting
@@ -105,12 +105,28 @@ app.controller('mainCtrl', function($scope,$compile,$http, GameControlService, G
         }
     }
 
+    $scope.openFeedback = function(){
+        ngDialog.open({
+            template: 'feedback.html',
+            className: 'ngdialog-theme-default feedback',
+            controller: 'feedbackCtrl'
+        })
+    }
+
     //Initial run
      $scope.newGame();
 
 });
-
-
+app.controller('feedbackCtrl', function($http,$scope){
+    $scope.submitFeedback = function(){
+        console.log($scope.Feedback);
+        $http.post('/api/feedback/FlipCard', $scope.Feedback)
+            .success(function(res){
+                
+            });
+        $scope.closeThisDialog();
+    };
+});
 /****************************************
  *          ELEMENT DIRECTIVE           *
  ****************************************/
